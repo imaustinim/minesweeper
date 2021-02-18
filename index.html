@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Minesweeper</title>
+</head>
+<body>
+    <h1>Minesweeper</h1>
+
+    <main>
+        <div id="gameboard">
+        </div>
+    </main>
+    
+    <button id="start-button">New Game</button>
+    <button id="settings-button">Settings</button>
+    
+    <form id="settings" action="/settings">
+        <div>
+            <label for="board-width">Board Width</label>
+            <input id="board-width" type="range" name="board-width" min="3" max="10" value="5" step="1">
+        </div>
+        <div>
+            <label for="board-height">Board Height</label>
+            <input id="board-width" type="range" name="board-height" min="3" max="10" value="5" step="1">
+        </div>
+        <div>
+            <label for="bombs-amount">Number of Bombs</label>
+            <input id="bombs-amount" type="range" name="bombs-amount" min="5" max="50" value="10" step="5">
+        </div>
+        <div>
+            <label for="style">Bomb Emoji</label>
+            <select name="style" id="style">
+                <option value="bomb-default">Classic</option>
+                <option value="bomb-monkey">Monkey</option>
+            </select>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
