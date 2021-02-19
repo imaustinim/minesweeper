@@ -12,8 +12,19 @@
     justify-content: center;
 }
 
-.cell {
-    padding: 1vw;
+.cell, .cell-img {
+    /* padding: 1vw; */
+    height: 3vw;
+    width: 3vw;
+}
+
+.active-cell:hover {
+    opacity: .5;
+    cursor: pointer;
+}
+
+img:active {
+    opacity: 1;
 }
 
 #settings {
@@ -33,7 +44,7 @@
         font-family: "DM Mono", monospace;
         margin: 0;
     }
-/*     
+/*
     p {
         margin: 0;
         opacity: 0;

@@ -20,21 +20,21 @@
     <form id="settings" action="/settings">
         <div>
             <label for="board-width">Board Width</label>
-            <input id="board-width" type="range" name="board-width" min="3" max="10" value="5" step="1">
+            <input id="board-width" type="range" name="board-width" min="1" max="20" value="5" step="1">
         </div>
         <div>
             <label for="board-height">Board Height</label>
-            <input id="board-height" type="range" name="board-height" min="3" max="10" value="5" step="1">
+            <input id="board-height" type="range" name="board-height" min="1" max="20" value="5" step="1">
         </div>
         <div>
             <label for="bombs-amount">Number of Bombs</label>
-            <input id="bombs-amount" type="range" name="bombs-amount" min="5" max="50" value="10" step="5">
+            <input id="bombs-amount" type="range" name="bombs-amount" min="1" max="99" value="1" step="1">
         </div>
         <div>
-            <label for="style">Bomb Emoji</label>
-            <select name="style" id="style">
-                <option value="bomb-default">Classic</option>
-                <option value="bomb-monkey">Monkey</option>
+            <label for="gameType">Bomb Emoji</label>
+            <select name="gameType" id="gameType">
+                <option value="01-classic">Classic</option>
+                <option value="02-apple">Apple</option>
             </select>
         </div>
     </div>
