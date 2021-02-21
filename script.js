@@ -1,12 +1,16 @@
 class Board {
-    constructor(width, height, bombs, board, gameType) {
-        this.width = width;
-        this.height = height;
-        this.bombs = bombs;
-        this.board = board;
+    constructor() {
+        this.board = document.querySelector("#gameboard");;
+        this.width = document.querySelector("#board-width");;
+        this.height = document.querySelector("#board-height");;
+        this.bombs = document.querySelector("#bombs-amount");;
         this.boardArray = [];
-        this.gameType = gameType;
+        this.gameType = document.querySelector("#gameType");;
         this.activeCells = [];
+        this.bombCounter = document.querySelector("#bomb-counter");
+        this.minutes = document.querySelector("#minutes");
+        this.seconds = document.querySelector("#seconds");
+        this.timer = null
     }
 
     deleteboard() {
@@ -14,6 +18,7 @@ class Board {
             this.board.removeChild(this.board.lastChild);
         }
         this.boardArray = [];
+        clearInterval(this.timer);
     }
 
     createBoard() {
@@ -74,15 +79,39 @@ class Board {
             }
         }
 
-        let numBombs = this.bombs.value/100*this.width.value*this.height.value;
+        function setTime() {
+            ++totalSeconds;
+        
+            this.seconds.innerHTML = pad(totalSeconds % 60);
+            this.minutes.innerHTML = pad(parseInt(totalSeconds / 60));
+        
+            function pad(val) {
+                const valString = val + "";
+                if (valString.length < 2) {
+                    return "0" + valString;
+                } else {
+                    return valString;
+                }
+            }
+        }
+
+
+        
+        
+        let num1 = this.bombs.value/100*this.width.value*this.height.value;
+        let num2 = this.width.value*this.height.value-1;
+        let numBombs = Math.ceil(Math.min(num1, num2));
+        this.bombCounter.innerHTML = numBombs;
         while (numBombs > 0) {
             createBombs();
             numBombs--;
         }
         addNumbers();
-        this.activeCells = [].slice.call(document.querySelectorAll(".active-cell"), 1);
+        this.activeCells = [].slice.call(document.querySelectorAll(".active-cell"), 0);
+        let totalSeconds = 0;
+        this.timer = setInterval(setTime, 1000);
     }
-
+        
     clickEventListener = (item) => {
         item.addEventListener("click", (e) => {
             const node = e.target.parentNode;
@@ -103,7 +132,7 @@ class Board {
                     if (adjCell === cell) continue;
                     if (adjCell.value === 0) {
                         this.evaluateCell(adjCell, i, j);
-                    } else if (adjCell.value > 0) {
+                    } else if (adjCell.value > 0 && adjCell.value < 9) {
                         this.changeCellImage(adjCell);                        
                     }
                 }
@@ -113,14 +142,17 @@ class Board {
     }
     
     changeCellImage(cell) {
-        const isBomb = () => {
-            if (cell.value === -2) {
-                cell.element.style.color = "red";
-            }
-        } 
-        cell.element.src = `img/${this.gameType.value}/${cell.value}.png`;
-        cell.element.classList.remove("active-cell");
-        delete this.activeCells[cell];
+        const index = this.activeCells.indexOf(cell.element);
+        if (index != -1) {
+            // const isBomb = () => {
+            //     if (cell.value === -2) {
+            //         cell.element.style.color = "red";
+            //     }
+            // } 
+            cell.element.src = `img/${this.gameType.value}/${cell.value}.png`;
+            cell.element.classList.remove("active-cell");
+            this.activeCells.splice(index, 1);
+        }
     }
 
     rightClickEventListener = (item) => {
@@ -130,24 +162,44 @@ class Board {
             const x = this.getIndex(node, 0);
             const y = this.getIndex(node, 1);
             const cell = this.boardArray[x][y];
-            if (cell.element.classList.contains("active-cell")) {
-                if (cell.value !== -9) {
+            if (this.activeCells.indexOf(cell.element) >= 0) {
+                if (cell.element.classList.contains("active-cell")) {
+                    if (cell.value !== -9) {
+                        const t = cell.value;
+                        cell.value = cell.temp_value;
+                        cell.temp_value = t;
+                        cell.element.src = `img/${this.gameType.value}/${cell.value}.png`;
+                        cell.element.classList.remove("active-cell");
+                        this.bombCounter.innerHTML = parseInt(this.bombCounter.innerHTML)-1;
+                    }
+                } else {
                     const t = cell.value;
                     cell.value = cell.temp_value;
                     cell.temp_value = t;
-                    cell.element.src = `img/${this.gameType.value}/${cell.value}.png`;
-                    delete this.activeCells[cell.element];
-                    cell.element.classList.remove("active-cell");
+                    cell.element.src = `img/${this.gameType.value}/0.png`;
+                    cell.element.classList.add("active-cell");
+                    this.bombCounter.innerHTML = parseInt(this.bombCounter.innerHTML)+1;
                 }
-            } else {
-                const t = cell.value;
-                cell.value = cell.temp_value;
-                cell.temp_value = t;
-                cell.element.src = `img/${this.gameType.value}/0.png`;
-                cell.element.classList.add("active-cell");
-                this.activeCells.push(cell.element);
+                if (this.bombCounter.innerHTML == 0) this.evaluateGame();
             }
         })
+    }
+
+    evaluateGame() {
+        let b = 0;
+        this.activeCells.forEach(node => {
+            const x = this.getIndex(node, 0);
+            const y = this.getIndex(node, 1);
+            const cell = this.boardArray[x][y];
+            if (cell.value === 9) {
+                b += 1;
+            }
+        })
+        if (b === 0) {
+            // win game
+        } else {
+            // lose game
+        }
     }
 
     getIndex(node, axis) {
@@ -157,16 +209,14 @@ class Board {
             return this.boardArray.indexOf.call(node.parentNode.childNodes, node);
         }
     }
+
+    saveSettings() {
+
+    }
 }
 
-
 // __main__
-const gameboard = document.querySelector("#gameboard");
-const boardWidth = document.querySelector("#board-width");
-const boardHeight = document.querySelector("#board-height");
-const bombs = document.querySelector("#bombs-amount");
-const gameType = document.querySelector("#gameType");
-const board = new Board(boardWidth, boardHeight, bombs, gameboard, gameType);
+const board = new Board();
 const newGame = document.querySelector("#start-button");
 newGame.addEventListener("click", () => {
     board.deleteboard();
@@ -175,6 +225,10 @@ newGame.addEventListener("click", () => {
     board.activeCells.forEach(item => board.clickEventListener(item));
     board.activeCells.forEach(item => board.rightClickEventListener(item));
 });
+
+const settings = document.querySelector("#settings");
+settings.addEventListener("click", () => {
+})
 
 // Add win condition - if all values are > 1 or -3
 // Add lose condition - if clicked value is -2
