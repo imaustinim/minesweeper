@@ -11,7 +11,9 @@
     <h1>Minesweeper</h1>
     <main>
         <div id="head">
-            <div id="bomb-counter">bombs</div>
+            <div>
+                <div id="bomb-counter">0</div>
+            </div>
             <div id="timer">
                 <label id="minutes">00</label>:<label id="seconds">00</label>
             </div>
@@ -21,29 +23,36 @@
     
     <button id="start-button">New Game</button>
     <button id="settings-button">Settings</button>
-    
-    <div class="modal">
-        <form id="settings" action="/settings">
-            <div>
-                <label for="board-width">Board Width</label>
-                <input id="board-width" type="range" name="board-width" min="1" max="20" value="5" step="1">
-            </div>
-            <div>
-                <label for="board-height">Board Height</label>
-                <input id="board-height" type="range" name="board-height" min="1" max="20" value="5" step="1">
-            </div>
-            <div>
-                <label for="bombs-amount">Number of Bombs</label>
-                <input id="bombs-amount" type="range" name="bombs-amount" min="1" max="99" value="1" step="1">
-            </div>
-            <div>
-                <label for="gameType">Bomb Emoji</label>
-                <select name="gameType" id="gameType">
-                    <option value="01-classic">Classic</option>
-                    <option value="02-apple">Apple</option>
-                </select>
-            </div>
-        </form>
+
+    <div class="modal-bg">
+        <div class="modal">
+            <h3>Settings</h3>
+            <form id="settings">
+                <div>
+                    <label for="board-width">Board Width</label>
+                    <input id="board-width" type="range" name="board-width" min="1" max="99" value="10" step="1">
+                    <div id="width-value">10</div>
+                </div>
+                <div>
+                    <label for="board-height">Board Height</label>
+                    <input id="board-height" type="range" name="board-height" min="1" max="99" value="10" step="1">
+                    <div>10</div>
+                </div>
+                <div>
+                    <label for="board-bombs">Bomb Percentage</label>
+                    <input id="board-bombs" type="range" name="board-bombs" min="1" max="40" value="5" step="1">
+                    <div>5</div>
+                </div>
+                <div>
+                    <label for="gameType">Bomb Emoji</label>
+                    <select name="gameType" id="gameType">
+                        <option value="01-classic">Classic</option>
+                        <option value="02-apple">Apple</option>
+                    </select>
+                </div>
+                <button id="save-changes">Save Changes</button>
+            </form>
+        </div>
     </div>
 
     <script src="script.js"></script>

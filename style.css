@@ -1,9 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap");
 
 /* new stuff */
+#head {
+    display: flex;
+    justify-content: center;
+}
+
+#head > div {
+    padding: 0 3vw;
+}
+
 #gameboard {
     display: flex;
     flex-direction: column;
+    padding: 1vw;
 }
 
 .row {
@@ -13,7 +23,6 @@
 }
 
 .cell, .cell-img {
-    /* padding: 1vw; */
     height: 3vw;
     width: 3vw;
 }
@@ -27,19 +36,51 @@ img:active {
     opacity: 1;
 }
 
-#settings {
+#settings > div {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 0;
+    text-align: center;
+}
+
+#settings > div > div, #settings > div > label {
+    padding: .25vw 2vw;
+}
+
+.modal-bg {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(23, 20, 29, .4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s opacity 0.5s; 
+}
+
+.modal-bg-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal {
+    background-color: rgb(23, 20, 29);
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex;
 }
 
 @media screen {
     body {
         text-align: center;
-        background-color: #17141d;
+        background-color: rgb(23, 20, 29);
         color: white;
         font-family: "DM Mono", monospace;
         margin: 0;
