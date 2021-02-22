@@ -7,6 +7,7 @@ class Board {
         this.gameType = document.querySelector("#gameType").value;
         this.boardArray = [];
         this.activeCells = [];
+        this.numBombs = 0;
         this.bombCounter = document.querySelector("#bomb-counter");
         this.minutes = document.querySelector("#minutes");
         this.seconds = document.querySelector("#seconds");
@@ -14,6 +15,7 @@ class Board {
     }
 
     deleteboard() {
+        document.querySelector("#face").innerHTML = ":|"
         while (this.board.hasChildNodes()) {
             this.board.removeChild(this.board.lastChild);
         }
@@ -39,7 +41,7 @@ class Board {
                 rowArray.push({
                     "element" : cell,
                     "value" : 0,
-                    "temp_value" : 9,
+                    "temp_value" : 0,
                     "x_value" : i,
                     "y_value" : j,
                 })
@@ -94,13 +96,14 @@ class Board {
             }
         }
         
-        let num1 = this.bombs/100*this.width*this.height;
-        let num2 = this.width*this.height-1;
-        let numBombs = Math.ceil(Math.min(num1, num2));
-        this.bombCounter.innerHTML = numBombs;
-        while (numBombs > 0) {
+        const num1 = this.bombs/100*this.width*this.height;
+        const num2 = this.width*this.height-1;
+        this.numBombs = Math.ceil(Math.min(num1, num2));
+        this.bombCounter.innerHTML = this.numBombs;
+        let nb = this.numBombs;
+        while (nb > 0) {
             createBombs();
-            numBombs--;
+            nb--;
         }
         addNumbers();
         this.activeCells = [].slice.call(document.querySelectorAll(".active-cell"), 0);
@@ -139,15 +142,21 @@ class Board {
     
     changeCellImage(cell) {
         const index = this.activeCells.indexOf(cell.element);
-        if (index != -1) {
-            // const isBomb = () => {
-            //     if (cell.value === -2) {
-            //         cell.element.style.color = "red";
-            //     }
-            // } 
+        if (index != -1 && cell.temp_value != 1) {
             cell.element.src = `img/${this.gameType}/${cell.value}.png`;
             cell.element.classList.remove("active-cell");
             this.activeCells.splice(index, 1);
+            if (cell.value === -2) {
+                cell.element.style.backgroundColor = "red";
+                this.boardArray.forEach(row => {
+                    row.forEach(cell => {
+                        if (cell.value == -2) cell.element.src = `img/${this.gameType}/${cell.value}.png`;
+                        cell.element.classList.remove("active-cell");
+                    })
+                })
+                this.activeCells = [];
+                document.querySelector("#face").innerHTML = ":("
+            }
         }
     }
 
@@ -160,21 +169,17 @@ class Board {
             const cell = this.boardArray[x][y];
             if (this.activeCells.indexOf(cell.element) >= 0) {
                 if (cell.element.classList.contains("active-cell")) {
-                    if (cell.value !== -9) {
-                        const t = cell.value;
-                        cell.value = cell.temp_value;
-                        cell.temp_value = t;
-                        cell.element.src = `img/${this.gameType}/${cell.value}.png`;
+                    if (cell.temp_value == 0 ) {
+                        cell.element.src = `img/${this.gameType}/9.png`;
                         cell.element.classList.remove("active-cell");
                         this.bombCounter.innerHTML = parseInt(this.bombCounter.innerHTML)-1;
+                        cell.temp_value = 1;
                     }
                 } else {
-                    const t = cell.value;
-                    cell.value = cell.temp_value;
-                    cell.temp_value = t;
                     cell.element.src = `img/${this.gameType}/0.png`;
                     cell.element.classList.add("active-cell");
                     this.bombCounter.innerHTML = parseInt(this.bombCounter.innerHTML)+1;
+                    cell.temp_value = 0;
                 }
                 if (this.bombCounter.innerHTML == 0) this.evaluateGame();
             }
@@ -183,25 +188,22 @@ class Board {
 
     evaluateGame() {
         let b = 0;
-        this.activeCells.forEach(node => {
-            const x = this.getIndex(node, 0);
-            const y = this.getIndex(node, 1);
-            const cell = this.boardArray[x][y];
-            if (cell.value === 9) {
-                b += 1;
-            }
+        this.boardArray.forEach(row => {
+            row.forEach(cell => {
+                if (cell.value == -2 && cell.temp_value == 1) b++;
+            })
         })
-        if (b === 0) {
-            // win game
-        } else {
-            // lose game
+        if (this.numBombs == b) {
+            document.querySelector("#face").innerHTML = ":)"
+            this.activeCells = null;
+            clearInterval(this.timer);
         }
     }
 
     getIndex(node, axis) {
-        if (!axis) {
+        if (axis == 0) {
             return this.boardArray.indexOf.call(node.parentNode.parentNode.childNodes, node.parentNode);
-        } else {
+        } else if (axis == 1) {
             return this.boardArray.indexOf.call(node.parentNode.childNodes, node);
         }
     }
@@ -224,19 +226,19 @@ newGame.addEventListener("click", (e) => {
     board.createBoard();
     board.populateBoard();
     board.activeCells.forEach(item => board.clickEventListener(item));
-    board.activeCells.forEach(item => board.rightClickEventListener(item));
+    board.activeCells.forEach(item => board.rightClickEventListener(item))
 });
 
 const settingsBtn = document.querySelector("#settings-button");
 const modalBg = document.querySelector(".modal-bg");
-const saveBtn = document.querySelector("#save-changes");
+const closeBtn = document.querySelector("#close");
 
 settingsBtn.addEventListener("click", (e) => {
     e.preventDefault();
     modalBg.classList.add("modal-bg-active");
 })
 
-saveBtn.addEventListener("click", (e) => {
+closeBtn.addEventListener("click", (e) => {
     e.preventDefault();
     board.getChanges();
     modalBg.classList.remove("modal-bg-active");
@@ -246,16 +248,13 @@ const width = document.querySelector("#board-width");
 const height = document.querySelector("#board-height");
 const bombs = document.querySelector("#board-bombs");
 const gameType = document.querySelector("#gameType")
-const settings = [width, height, bombs, gameType];
+const settings = [width, height, bombs];
 settings.forEach(item => changeSettings(item));
 
 function changeSettings(item) {
     item.addEventListener("click", (e) => {
         const childNodes = e.target.parentNode.childNodes;
         childNodes[childNodes.length-2].innerHTML = e.target.value;
-        // const text = document.qu
-        // document.querySelector("#width-value").innerHTML = "aksjdflajsdf";
-        // console.log(e.target.nextSibling.innerHTML);
     })
 };
 

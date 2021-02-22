@@ -1,82 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap");
 
-/* new stuff */
-#head {
-    display: flex;
-    justify-content: center;
-}
-
-#head > div {
-    padding: 0 3vw;
-}
-
-#gameboard {
-    display: flex;
-    flex-direction: column;
-    padding: 1vw;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.cell, .cell-img {
-    height: 3vw;
-    width: 3vw;
-}
-
-.active-cell:hover {
-    opacity: .5;
-    cursor: pointer;
-}
-
-img:active {
-    opacity: 1;
-}
-
-#settings > div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-#settings > div > div, #settings > div > label {
-    padding: .25vw 2vw;
-}
-
-.modal-bg {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(23, 20, 29, .4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s opacity 0.5s; 
-}
-
-.modal-bg-active {
-    visibility: visible;
-    opacity: 1;
-}
-
-.modal {
-    background-color: rgb(23, 20, 29);
-    width: 50%;
-    height: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex;
-}
-
 @media screen {
     body {
         text-align: center;
@@ -85,32 +8,76 @@ img:active {
         font-family: "DM Mono", monospace;
         margin: 0;
     }
-/*
-    p {
+
+    .text {
+        padding: 0;
         margin: 0;
-        opacity: 0;
     }
-    
-    #board {
+
+    #head {
+        display: flex;
+        justify-content: center;
+    }
+
+    #gameboard {
         display: flex;
         flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .active-cell:hover {
+        opacity: .5;
+        cursor: pointer;
+    }
+
+    #settings > div {
+        display: flex;
+        flex-direction: row;
         justify-content: center;
         align-items: center;
+        text-align: center;
     }
-    
-    .box {
-        display: table-cell;
+
+    #close {
+        margin: 2vw 0 0 0;
     }
-    
+
+    .modal-bg {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(23, 20, 29, .4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s opacity 0.5s; 
+    }
+
+    .modal-bg-active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .modal {
+        background-color: rgb(23, 20, 29);
+        width: 50%;
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex;
+    }
+
     .button {
-        display: block;
-        color: white;
-        border-color: white;
-        background-color: #17141d;
-    }
-    
-    .box:hover, .button:hover {
-        background-color: greenyellow;
+        font-family: "DM Mono", monospace;
     }
 }
 
@@ -119,22 +86,42 @@ img:active {
         padding: 2vw 0;
         font-size: clamp(0.5vw, -0.875vw + 8.333vw, 3.5vw);
     }
-    
-    .box {
-        padding: .95vw 5.15vw;
-        font-size: 12vw;
+
+    .text {
+        font-size: clamp(0.25vw, -0.875vw + 8.333vw, 2.5vw);
     }
-    
-    .box, .button {
-        box-shadow: -1vw 1vw 5vw 1vw black;
-        background-color: #17141d;
-        
+
+    #head > div {
+        padding: 0 3vw;
+    }
+
+    #gameboard {
+        padding: 1vw;
+    }
+
+    .cell, .cell-img {
+        height: 2vw;
+        width: 2vw;
+    }
+
+    #settings > div {
+        margin: .5vw;
+    }
+
+    #settings > div > div, #settings > div > label {
+        padding: .25vw 2vw;
+    }
+
+    #close {
+        margin: 2vw 0 0 0;
+    }
+
+    .buttons {
+        padding: 1vw;
     }
 
     .button {
-        font-size: clamp(0.35vw, -0.5vw + 8.333vw, 2vw);
-        margin: 2vw auto;
-        padding: 1vw;
+        font-size: 2vw;
     }
 }
 
@@ -143,20 +130,41 @@ img:active {
         padding: 19.2px 0;
         font-size: clamp(4.8px, -8.4px + 79.9968px, 33.6px);
     }
-    
-    .box {
-        padding: 9.12px 49.44px;
-        font-size: 115.2px;
+
+    .text {
+        font-size: clamp(2.4px, 8.4 + 79.9968px, 24px);
     }
-    
-    .box, .button {
-        box-shadow: -9.6px 9.6px 48px 9.6px black;
-        background-color: #17141d;
+
+    #head > div {
+        padding: 0 28.8px;
+    }
+
+    #gameboard {
+        padding: 9.8px;
+    }
+
+    .cell, .cell-img {
+        height: 19.2px;
+        width: 19.2px;
+    }
+
+    #settings > div {
+        margin: 4.8px;
+    }
+
+    #settings > div > div, #settings > div > label {
+        padding: 2.4px 19.2px;
+    }
+
+    #close {
+        margin: 19.2px 0 0 0;
+    }
+
+    .buttons {
+        padding: 9.6px;
     }
 
     .button {
-        font-size: clamp(3.36px, -4.8px + 9.9968px, 19.2px);
-        margin: 19.2px auto;
-        padding: 9.6px;
+        font-size: 19.2px;
     }
-} */
+}
