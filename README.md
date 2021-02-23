@@ -23,5 +23,7 @@ Key Learning Points
 1. Have a better idea of what kind of data structure required (array, dictionary, etc)
 2. Utilize pseudocode when creating different classes, functions, data structures, algorithms. Don't just dive in to the project.
 
->>>>>>> 1064d49a1c287ad1aa48296b86def623df29d33a
 ## Gameplay Images
+![Gameplay Image](img/gameplay.png)
+
+>>>>>>> 1064d49a1c287ad1aa48296b86def623df29d33a
