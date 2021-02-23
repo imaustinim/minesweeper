@@ -28,6 +28,3 @@ Key Learning Points
 ![Gameplay Image](img/gameplay.png)
 
 >>>>>>> 1064d49a1c287ad1aa48296b86def623df29d33a
-=======
-![Gameplay Image](img/gameplay.png)
->>>>>>> 9b9163890895f97bd26482e2e0071664746d879d
