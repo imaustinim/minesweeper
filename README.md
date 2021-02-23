@@ -13,3 +13,4 @@ Key Learning Points
 2. Utilize pseudocode when creating different classes, functions, data structures, algorithms. Don't just dive in to the project.
 
 ## Gameplay Images
+![Gameplay Image](img/gameplay.png)
