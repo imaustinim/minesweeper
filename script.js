@@ -257,15 +257,3 @@ function changeSettings(item) {
         childNodes[childNodes.length-2].innerHTML = e.target.value;
     })
 };
-
-
-
-
-// Add win condition - if all values are > 1 or -3
-// Add lose condition - if clicked value is -2
-    // Add background color and pop up
-// Add counter
-// Add settings page
-    // Save settings
-    // Add different styles
-// Add media query
