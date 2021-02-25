@@ -15,3 +15,11 @@ Key Learning Points
 
 ## Gameplay Images
 ![Gameplay Image](img/gameplay.png)
+
+## Getting Started
+[Minesweeper](https://imaustinim.github.io/minesweeper/)
+
+## Future Considerations
+1. Include multiple gameplay styles.
+2. Improve createBomb algorithm to esnure better spacing.
+3. Add function to ensure the first click is not a bomb.
